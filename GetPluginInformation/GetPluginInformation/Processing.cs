@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System;
+using System.Collections.Generic;
 using Swindom.IPluginSwindom;
 
 namespace GetPluginInformation;
@@ -10,9 +11,16 @@ internal class Processing
     /// ディレクトリ内のファイルパスを取得
     /// </summary>
     /// <returns>ディレクトリ内のファイルパス</returns>
-    private static string[] GetFilesPath()
+    private static List<string> GetFilesPath()
     {
-        return Directory.GetFiles(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "Plugins", "*.dll");
+        string[] commandLineArgs = Environment.GetCommandLineArgs();
+        List<string> path = new();
+
+        for (int index = 1; index < commandLineArgs.Length; index++)
+        {
+            path.AddRange(Directory.GetFiles(commandLineArgs[index], "*.dll"));
+        }
+        return path;
     }
 
     /// <summary>
@@ -27,7 +35,7 @@ internal class Processing
             {
                 return;
             }
-            string[] filesPath = GetFilesPath();     // ディレクトリ内のファイルパス
+            List<string> filesPath = GetFilesPath();     // ディレクトリ内のファイルパス
 
             foreach (string nowFilePath in filesPath)
             {
@@ -54,6 +62,7 @@ internal class Processing
                             }
                             Console.WriteLine(nowFilePath);
                             Console.WriteLine(pluginName);
+                            Console.WriteLine(iPlugin.IsWindowExist.ToString());
                             break;
                         }
                     }
