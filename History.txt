@@ -2,4 +2,7 @@
 // 「GetPluginInformation」 history
 ///////////////////////////////////////////////
 
+Version 1.0.1 - 2024/9/1
+ - 送信する情報にウィンドウが存在するかの値(IsWindowExist)を追加。
+
 Version 1.0.0 - 2023/5/21
